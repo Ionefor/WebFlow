@@ -3,7 +3,8 @@ name: Publish to NuGet
 on:
   push:
     tags:
-      - 'v*.*.*' 
+      - 'v*.*.*'
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
@@ -19,4 +20,10 @@ jobs:
         run: dotnet pack --configuration Release -p:Version=${GITHUB_REF#refs/tags/v}
         
       - name: Publish
-        run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        run: |
+          # Явно указываем путь к nupkg файлу
+          PACKAGE_PATH=$(ls bin/Release/*.nupkg)
+          dotnet nuget push $PACKAGE_PATH \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
