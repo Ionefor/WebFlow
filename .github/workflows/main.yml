@@ -21,7 +21,6 @@ jobs:
         
       - name: Publish
         run: |
-          # Явно указываем путь к nupkg файлу
           PACKAGE_PATH=$(ls bin/Release/*.nupkg)
           dotnet nuget push $PACKAGE_PATH \
             --api-key ${{ secrets.NUGET_API_KEY }} \
