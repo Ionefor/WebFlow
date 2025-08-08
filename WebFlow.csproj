@@ -3,8 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <PackageId>WebApplicationFlow</PackageId>
-        <Version>1.0.0</Version>
-        <PackageVersion>1.0.0</PackageVersion>
+        <Version>1.1.0</Version>
+        <PackageVersion>1.1.0</PackageVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Web application library</Description>
         <RepositoryUrl>https://github.com/Ionefor/WebFlow</RepositoryUrl>
