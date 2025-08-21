@@ -153,12 +153,14 @@ public static class QueriesExtensions
         bool condition,
         Expression<Func<TSource, TKey>> selector)
     {
-        if (!condition)
+        if (!condition) 
             return source;
         
-        if (source is IOrderedQueryable<TSource> ordered)
-            return ordered.ThenBy(selector);
+        var isOrdered = source.Expression.
+            Type == typeof(IOrderedQueryable<TSource>);
 
-        return source.OrderBy(selector);
+        return isOrdered
+            ? ((IOrderedQueryable<TSource>)source).ThenBy(selector)
+            : source.OrderBy(selector);
     }
 }
