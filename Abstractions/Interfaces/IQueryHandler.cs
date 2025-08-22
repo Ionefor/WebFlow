@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace WebFlow.Abstractions;
+namespace WebFlow.Abstractions.Interfaces;
 
 public interface IQueryHandler<TResponse, in TQuery> where TQuery : IQuery
 {

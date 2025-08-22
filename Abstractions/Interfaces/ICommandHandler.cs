@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using ErrorsFlow.Models;
 
-namespace WebFlow.Abstractions;
+namespace WebFlow.Abstractions.Interfaces;
 
 public interface ICommandHandler<TResponse, in TCommand> where TCommand : ICommand
 {

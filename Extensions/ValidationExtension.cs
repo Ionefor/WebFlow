@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
 using ErrorsFlow.Errors;
 using ErrorsFlow.Models;
 using ErrorsFlow.Parameters;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.VisualBasic;
 
 namespace WebFlow.Extensions;
 
@@ -58,5 +60,24 @@ public static class ValidationExtension
                 context.AddFailure(GeneralErrors.ValueIsInvalid().Serialize());
             }
         });
+    }
+    
+    public static bool IsEmail(this string email)
+    {
+        return Regex.IsMatch(email, Constants.PatternEmail);
+    }
+    
+    public static bool IsValidPhoneNumber(this string phoneNumber)
+    {
+       
+        return Regex.IsMatch(phoneNumber, Constants.PatternPhoneNumber);
+    }
+    
+    public static bool IsOnlyLetters(this string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return false; 
+
+        return input.All(char.IsLetter);
     }
 }

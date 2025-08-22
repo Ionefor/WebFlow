@@ -3,8 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <PackageId>WebApplicationFlow</PackageId>
-        <Version>1.1.0</Version>
-        <PackageVersion>1.1.0</PackageVersion>
+        <Version>1.1.1</Version>
+        <PackageVersion>1.1.1</PackageVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Web application library</Description>
         <RepositoryUrl>https://github.com/Ionefor/WebFlow</RepositoryUrl>
@@ -28,6 +28,7 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     </ItemGroup>
 
 </Project>
