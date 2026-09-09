@@ -69,15 +69,42 @@ public static class ValidationExtension
     
     public static bool IsValidPhoneNumber(this string phoneNumber)
     {
-       
         return Regex.IsMatch(phoneNumber, Constants.PatternPhoneNumber);
     }
     
     public static bool IsOnlyLetters(this string input)
     {
-        if (string.IsNullOrEmpty(input))
+        if (string.IsNullOrWhiteSpace(input))
             return false; 
 
         return input.All(char.IsLetter);
+    }
+    
+    public static bool IsName(this string name)
+    {
+        if (!name.IsOnlyLetters() || name.Length > Constants.MaxNameLenght)
+            return false; 
+        
+        return true;
+    }
+    
+    public static bool IsDateOfBirth(this DateOnly date)
+    {
+        var today = DateOnly.FromDateTime(DateTime.Today);
+        
+        if (date > today)
+            return false;
+        
+        var minBirthDate = today.AddYears(-14);
+        
+        if (date > minBirthDate)
+            return false;
+        
+        var maxBirthDate = today.AddYears(-90);
+        
+        if (date < maxBirthDate)
+            return false;
+    
+        return true;
     }
 }
