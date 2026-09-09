@@ -1,0 +1,32 @@
+name: Build and test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore WebFlow.sln --source https://api.nuget.org/v3/index.json
+
+      - name: Build
+        run: dotnet build WebFlow.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test WebFlow.sln --configuration Release --no-build

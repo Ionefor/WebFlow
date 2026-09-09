@@ -1,28 +1,55 @@
-name: Publish to NuGet
+name: Publish NuGet packages
 
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
+
+permissions:
+  contents: read
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
-      - uses: actions/checkout@v4
-      
+      - name: Checkout
+        uses: actions/checkout@v6
+
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
-          
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore WebFlow.sln --source https://api.nuget.org/v3/index.json
+
+      - name: Build
+        run: dotnet build WebFlow.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test WebFlow.sln --configuration Release --no-build
+
       - name: Pack
-        run: dotnet pack --configuration Release -p:Version=${GITHUB_REF#refs/tags/v}
-        
-      - name: Publish
+        shell: bash
         run: |
-          PACKAGE_PATH=$(ls bin/Release/*.nupkg)
-          dotnet nuget push $PACKAGE_PATH \
-            --api-key ${{ secrets.NUGET_API_KEY }} \
-            --source https://api.nuget.org/v3/index.json \
-            --skip-duplicate
+          version="${GITHUB_REF_NAME#v}"
+          dotnet pack WebFlow.sln --configuration Release --no-build \
+            --output artifacts/packages \
+            -p:PackageVersion="$version"
+
+      - name: NuGet login with Trusted Publishing
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      - name: Publish packages
+        run: >
+          dotnet nuget push "artifacts/packages/*.nupkg"
+          --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
+          --source "https://api.nuget.org/v3/index.json"
+          --skip-duplicate
