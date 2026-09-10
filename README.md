@@ -132,10 +132,7 @@ public sealed class AuthController : ApplicationController
         if (result.IsFailure)
             return Error(result.Error);
 
-        return CreatedAtActionEnvelope(
-            nameof(RegisterClient),
-            new { id = result.Value },
-            result.Value);
+        return CreatedEnvelope(result.Value);
     }
 }
 ```

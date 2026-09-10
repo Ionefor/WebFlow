@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>WebFlow.Abstractions</PackageId>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Command, query and transaction abstractions for WebFlow applications.</Description>
     <RepositoryUrl>https://github.com/Ionefor/WebFlow</RepositoryUrl>
